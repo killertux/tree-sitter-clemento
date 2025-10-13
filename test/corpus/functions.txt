@@ -1,0 +1,172 @@
+================================================================================
+Simple function definition
+================================================================================
+
+def greet { println }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (identifier)
+    (function_body
+      (expression_sequence
+        (identifier)))))
+
+================================================================================
+Function with signature
+================================================================================
+
+def add (Int Int -> Int) { + }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (identifier)
+    (function_signature
+      (type_list
+        (type (identifier))
+        (type (identifier)))
+      (type_list
+        (type (identifier))))
+    (function_body
+      (expression_sequence
+        (operator)))))
+
+================================================================================
+Function with input types only
+================================================================================
+
+def greet (String -> ) { println }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (identifier)
+    (function_signature
+      (type_list
+        (type (identifier))))
+    (function_body
+      (expression_sequence
+        (identifier)))))
+
+================================================================================
+Function with output types only
+================================================================================
+
+def newline (-> String) { "\n" }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (identifier)
+    (function_signature
+      (type_list
+        (type (identifier))))
+    (function_body
+      (expression_sequence
+        (string_literal
+          (string_content))))))
+
+================================================================================
+Multiple function definitions
+================================================================================
+
+def greet (String -> ) { println }
+def dupstring (String -> String String) { dup }
+
+def main {
+    "Hello" dupstring greet greet
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (identifier)
+    (function_signature
+      (type_list
+        (type (identifier))))
+    (function_body
+      (expression_sequence
+        (identifier))))
+  (function_definition
+    (identifier)
+    (function_signature
+      (type_list
+        (type (identifier)))
+      (type_list
+        (type (identifier))
+        (type (identifier))))
+    (function_body
+      (expression_sequence
+        (operator))))
+  (function_definition
+    (identifier)
+    (function_body
+      (expression_sequence
+        (function_call
+          (function_call
+            (function_call
+              (string_literal
+                (string_content))
+              (identifier))
+            (identifier))
+          (identifier))))))
+
+================================================================================
+Function with complex expressions
+================================================================================
+
+def fibonacci (Int -> Int) {
+    dup 2 < if {
+        1
+    } else {
+        dup 1 - fibonacci
+        swap 2 - fibonacci
+        +
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (identifier)
+    (function_signature
+      (type_list
+        (type (identifier)))
+      (type_list
+        (type (identifier))))
+    (function_body
+      (expression_sequence
+        (function_call
+          (function_call
+            (function_call
+              (operator)
+              (number_literal))
+            (operator))
+          (if_expression
+            (function_body
+              (expression_sequence
+                (number_literal)))
+            (function_body
+              (expression_sequence
+                (function_call
+                  (function_call
+                    (function_call
+                      (operator)
+                      (number_literal))
+                    (operator))
+                  (identifier))
+                (function_call
+                  (function_call
+                    (function_call
+                      (operator)
+                      (number_literal))
+                    (operator))
+                  (identifier))
+                (operator)))))))))

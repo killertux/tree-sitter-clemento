@@ -1,0 +1,179 @@
+// Comprehensive test file for Clemento language features
+// This file demonstrates all supported syntax elements
+
+// Simple function definitions
+def greet { println }
+def add { + }
+def multiply { * }
+
+// Functions with type signatures
+def add_typed (Int Int -> Int) { + }
+def greet_typed (String -> ) { println }
+def make_greeting (-> String) { "Hello, World!" }
+def duplicate (String -> String String) { dup }
+
+// Functions with complex type signatures
+def complex_math (Float Float Float -> Float Float) {
+    + *
+}
+
+// Main program demonstrating postfix notation
+def main {
+    // String operations
+    "Hello" greet
+    "World" "Hello, " swap + println
+
+    // Numeric operations
+    5 3 add_typed println
+    10 20 multiply println
+
+    // Stack operations
+    42 dup + println        // Duplicate and add: 84
+    1 2 3 swap println      // Should print 2, then stack has 1 3
+    drop println            // Drop 3, print 1
+
+    // More complex expressions
+    "Clemento" duplicate greet greet
+
+    // Nested operations
+    5 10 15 + * println     // (10 + 15) * 5 = 125
+}
+
+// Fibonacci function with control flow
+def fibonacci (Int -> Int) {
+    dup 2 < if {
+        // Base case: if n < 2, return 1
+        drop 1
+    } else {
+        // Recursive case: fib(n-1) + fib(n-2)
+        dup 1 - fibonacci
+        swap 2 - fibonacci
+        +
+    }
+}
+
+// Function demonstrating all numeric literal formats
+def test_numbers {
+    42 println          // Decimal integer
+    -17 println         // Negative integer
+    3.14 println        // Decimal float
+    -2.5 println        // Negative float
+    1e10 println        // Scientific notation
+    -5E-3 println       // Negative scientific
+    0x1A2B println      // Hexadecimal
+    0b1010 println      // Binary
+    0o777 println       // Octal
+}
+
+// Function demonstrating string features
+def test_strings {
+    "Simple string" println
+    "String with \"escaped quotes\"" println
+    "String with\nnewlines and\ttabs" println
+    "Unicode: \u0048\u0065\u006C\u006C\u006F" println
+    "" println  // Empty string
+}
+
+// Function demonstrating all operators
+def test_operators {
+    // Arithmetic operators
+    10 5 + println      // Addition: 15
+    10 5 - println      // Subtraction: 5
+    10 5 * println      // Multiplication: 50
+    10 5 / println      // Division: 2
+    10 5 % println      // Modulo: 0
+
+    // Comparison operators (conceptual - would need boolean support)
+    // 10 5 > println   // Greater than
+    // 10 5 < println   // Less than
+    // 10 5 >= println  // Greater or equal
+    // 10 5 <= println  // Less or equal
+    // 10 10 == println // Equal
+    // 10 5 != println  // Not equal
+
+    // Stack manipulation
+    1 2 3 dup println   // dup: duplicate top -> prints 3
+    drop drop drop      // Clean up stack
+
+    1 2 swap println    // swap: 1 2 -> 2 1, prints 1
+    drop                // Clean up
+
+    1 2 3 over println  // over: copy second to top -> prints 2
+    drop drop drop      // Clean up
+
+    1 2 3 rot println   // rot: rotate three items -> prints 1
+    drop drop           // Clean up
+}
+
+// Complex example: factorial function
+def factorial (Int -> Int) {
+    dup 1 <= if {
+        // Base case: if n <= 1, return 1
+        drop 1
+    } else {
+        // Recursive case: n * factorial(n-1)
+        dup 1 - factorial *
+    }
+}
+
+// Function with multiple control flows
+def classify_number (Int -> ) {
+    dup 0 < if {
+        "negative" println
+    } else {
+        dup 0 == if {
+            "zero" println
+        } else {
+            "positive" println
+        }
+    }
+    drop  // Clean up the number from stack
+}
+
+/* Multi-line comment demonstrating
+   more complex program structure.
+   This shows how comments can span
+   multiple lines and contain various
+   characters: !@#$%^&*()_+-={}[]|\:";'<>?,./ */
+
+// Function demonstrating nested expressions and mixed operations
+def complex_calculation {
+    // Calculate: ((5 + 3) * 2) - (10 / 5)
+    5 3 + 2 *           // (5 + 3) * 2 = 16
+    10 5 /              // 10 / 5 = 2
+    -                   // 16 - 2 = 14
+    println
+}
+
+// Entry point with comprehensive test
+def run_tests {
+    "=== Testing Clemento Language ===" println
+
+    "Testing basic functions:" println
+    main
+
+    "Testing numbers:" println
+    test_numbers
+
+    "Testing strings:" println
+    test_strings
+
+    "Testing operators:" println
+    test_operators
+
+    "Testing factorial of 5:" println
+    5 factorial println
+
+    "Testing fibonacci of 7:" println
+    7 fibonacci println
+
+    "Testing number classification:" println
+    -5 classify_number
+    0 classify_number
+    42 classify_number
+
+    "Testing complex calculation:" println
+    complex_calculation
+
+    "=== All tests completed ===" println
+}

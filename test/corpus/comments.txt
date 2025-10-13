@@ -1,0 +1,187 @@
+================================================================================
+Single-line comments
+================================================================================
+
+// This is a comment
+def test { println }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (comment)
+  (function_definition
+    (identifier)
+    (function_body
+      (expression_sequence
+        (identifier)))))
+
+================================================================================
+Multi-line comments
+================================================================================
+
+/* This is a
+   multi-line comment */
+def test { println }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (comment)
+  (function_definition
+    (identifier)
+    (function_body
+      (expression_sequence
+        (identifier)))))
+
+================================================================================
+Comments within function bodies
+================================================================================
+
+def fibonacci (Int -> Int) {
+    // Base case
+    dup 2 < if {
+        1
+    } else {
+        // Recursive case
+        dup 1 - fibonacci
+        swap 2 - fibonacci
+        +
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (identifier)
+    (function_signature
+      (type_list
+        (type (identifier)))
+      (type_list
+        (type (identifier))))
+    (function_body
+      (expression_sequence
+        (comment)
+        (function_call
+          (function_call
+            (function_call
+              (operator)
+              (number_literal))
+            (operator))
+          (if_expression
+            (function_body
+              (expression_sequence
+                (number_literal)))
+            (function_body
+              (expression_sequence
+                (comment)
+                (function_call
+                  (function_call
+                    (function_call
+                      (operator)
+                      (number_literal))
+                    (operator))
+                  (identifier))
+                (function_call
+                  (function_call
+                    (function_call
+                      (operator)
+                      (number_literal))
+                    (operator))
+                  (identifier))
+                (operator)))))))))
+
+================================================================================
+Nested multi-line comments
+================================================================================
+
+/* Outer comment
+   /* This should not nest */
+   Still part of outer comment */
+def test { println }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (comment)
+  (function_definition
+    (identifier)
+    (function_body
+      (expression_sequence
+        (identifier)))))
+
+================================================================================
+Comments at end of line
+================================================================================
+
+def add (Int Int -> Int) { + } // Addition function
+def sub (Int Int -> Int) { - } /* Subtraction function */
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (identifier)
+    (function_signature
+      (type_list
+        (type (identifier))
+        (type (identifier)))
+      (type_list
+        (type (identifier))))
+    (function_body
+      (expression_sequence
+        (operator))))
+  (comment)
+  (function_definition
+    (identifier)
+    (function_signature
+      (type_list
+        (type (identifier))
+        (type (identifier)))
+      (type_list
+        (type (identifier))))
+    (function_body
+      (expression_sequence
+        (operator))))
+  (comment))
+
+================================================================================
+Empty comments
+================================================================================
+
+//
+/* */
+def test { println }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (comment)
+  (comment)
+  (function_definition
+    (identifier)
+    (function_body
+      (expression_sequence
+        (identifier)))))
+
+================================================================================
+Comments with special characters
+================================================================================
+
+// Comment with @#$%^&*()_+-={}[]|:";'<>?,./ symbols
+/* Multi-line with @#$%^&*()
+   More symbols: _+-={}[]|:";'<>?,./
+   Even more: !~`
+*/
+def test { println }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (comment)
+  (comment)
+  (function_definition
+    (identifier)
+    (function_body
+      (expression_sequence
+        (identifier)))))

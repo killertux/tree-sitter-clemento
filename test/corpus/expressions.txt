@@ -1,0 +1,252 @@
+================================================================================
+String literals
+================================================================================
+
+def test {
+    "Hello, world!"
+    "String with \"escaped quotes\""
+    "String with\nnewlines and\ttabs"
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (identifier)
+    (function_body
+      (expression_sequence
+        (string_literal
+          (string_content))
+        (string_literal
+          (string_content
+            (escape_sequence)
+            (escape_sequence)))
+        (string_literal
+          (string_content
+            (escape_sequence)
+            (escape_sequence)))))))
+
+================================================================================
+Number literals
+================================================================================
+
+def test {
+    42
+    -17
+    3.14
+    -2.5
+    1e10
+    -5E-3
+    0x1A2B
+    0b1010
+    0o777
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (identifier)
+    (function_body
+      (expression_sequence
+        (number_literal)
+        (number_literal)
+        (number_literal)
+        (number_literal)
+        (number_literal)
+        (number_literal)
+        (number_literal)
+        (number_literal)
+        (number_literal)))))
+
+================================================================================
+Operators
+================================================================================
+
+def test {
+    + - * / %
+    == != < <= > >=
+    && || !
+    and or not
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (identifier)
+    (function_body
+      (expression_sequence
+        (operator)
+        (operator)
+        (operator)
+        (operator)
+        (operator)
+        (operator)
+        (operator)
+        (operator)
+        (operator)
+        (operator)
+        (operator)
+        (operator)
+        (operator)
+        (operator)
+        (operator)
+        (operator)
+        (operator)))))
+
+================================================================================
+Stack operators
+================================================================================
+
+def test {
+    dup
+    drop
+    swap
+    over
+    rot
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (identifier)
+    (function_body
+      (expression_sequence
+        (operator)
+        (operator)
+        (operator)
+        (operator)
+        (operator)))))
+
+================================================================================
+Function calls
+================================================================================
+
+def test {
+    42 println
+    "hello" "world" concat println
+    1 2 + 3 * println
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (identifier)
+    (function_body
+      (expression_sequence
+        (function_call
+          (number_literal)
+          (identifier))
+        (function_call
+          (function_call
+            (function_call
+              (string_literal
+                (string_content))
+              (string_literal
+                (string_content)))
+            (identifier))
+          (identifier))
+        (function_call
+          (function_call
+            (function_call
+              (function_call
+                (number_literal)
+                (number_literal))
+              (operator))
+            (number_literal))
+          (operator))))))
+
+================================================================================
+If expressions
+================================================================================
+
+def test {
+    true if { "yes" println }
+    false if { "no" } else { "yes" }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (identifier)
+    (function_body
+      (expression_sequence
+        (function_call
+          (identifier)
+          (if_expression
+            (function_body
+              (expression_sequence
+                (function_call
+                  (string_literal
+                    (string_content))
+                  (identifier))))))
+        (function_call
+          (identifier)
+          (if_expression
+            (function_body
+              (expression_sequence
+                (string_literal
+                  (string_content))))
+            (function_body
+              (expression_sequence
+                (string_literal
+                  (string_content))))))))))
+
+================================================================================
+Mixed expressions
+================================================================================
+
+def fibonacci (Int -> Int) {
+    dup 2 < if {
+        drop 1
+    } else {
+        dup 1 - fibonacci
+        swap 2 - fibonacci
+        +
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    (identifier)
+    (function_signature
+      (type_list
+        (type (identifier)))
+      (type_list
+        (type (identifier))))
+    (function_body
+      (expression_sequence
+        (function_call
+          (function_call
+            (function_call
+              (operator)
+              (number_literal))
+            (operator))
+          (if_expression
+            (function_body
+              (expression_sequence
+                (operator)
+                (number_literal)))
+            (function_body
+              (expression_sequence
+                (function_call
+                  (function_call
+                    (function_call
+                      (operator)
+                      (number_literal))
+                    (operator))
+                  (identifier))
+                (function_call
+                  (function_call
+                    (function_call
+                      (operator)
+                      (number_literal))
+                    (operator))
+                  (identifier))
+                (operator)))))))))

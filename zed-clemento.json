@@ -1,0 +1,86 @@
+{
+  "name": "Clemento",
+  "grammar": "clemento",
+  "path_suffixes": ["clem", "clemento"],
+  "line_comment": "//",
+  "block_comment": ["/*", "*/"],
+  "autoclose": {
+    "before": ";,=+*)}>]:&!%",
+    "brackets": {
+      "{": "}",
+      "(": ")",
+      "[": "]",
+      "\"": "\""
+    }
+  },
+  "brackets": [
+    {
+      "start": "{",
+      "end": "}",
+      "close": true,
+      "newline": true
+    },
+    {
+      "start": "(",
+      "end": ")",
+      "close": true,
+      "newline": false
+    }
+  ],
+  "scope": "source.clemento",
+  "injection": {
+    "language": "clemento",
+    "patterns": [
+      {
+        "regex": "(?i)clemento",
+        "kind": "comment"
+      }
+    ]
+  },
+  "highlights": [
+    {
+      "pattern": "def",
+      "type": "keyword"
+    },
+    {
+      "pattern": "if|else",
+      "type": "keyword"
+    },
+    {
+      "pattern": "\\+|\\-|\\*|\\/|%|==|!=|<|<=|>|>=|&&|\\|\\||!|and|or|not",
+      "type": "operator"
+    },
+    {
+      "pattern": "dup|drop|swap|over|rot",
+      "type": "function.builtin"
+    },
+    {
+      "pattern": "\"([^\"\\\\]|\\\\.)*\"",
+      "type": "string"
+    },
+    {
+      "pattern": "\\b\\d+(\\.\\d+)?([eE][+-]?\\d+)?\\b",
+      "type": "number"
+    },
+    {
+      "pattern": "\\b0x[0-9a-fA-F]+\\b",
+      "type": "number"
+    },
+    {
+      "pattern": "\\b0b[01]+\\b",
+      "type": "number"
+    },
+    {
+      "pattern": "\\b0o[0-7]+\\b",
+      "type": "number"
+    },
+    {
+      "pattern": "\\/\\/.*$",
+      "type": "comment"
+    },
+    {
+      "pattern": "\\/\\*[\\s\\S]*?\\*\\/",
+      "type": "comment"
+    }
+  ]
+}

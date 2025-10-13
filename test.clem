@@ -1,0 +1,28 @@
+def greet (String -> ) { println }
+def dupstring (String -> String String) { dup }
+
+def main {
+    "Hello" dupstring greet greet
+}
+
+// Test comment
+def add (Int Int -> Int) { + }
+
+def fibonacci (Int -> Int) {
+    dup 2 < if {
+        // Base case
+        1
+    } else {
+        // Recursive case
+        dup 1 - fibonacci
+        swap 2 - fibonacci
+        +
+    }
+}
+
+/* Multi-line comment
+   for testing purposes */
+def test_strings {
+    "Hello, world!" println
+    "Escaped \"quotes\" and \n newlines" println
+}
