@@ -1,0 +1,186 @@
+// Comprehensive test file for updated ClementoLang tree-sitter grammar
+// Tests all major language features
+
+// Import statements
+import std::*
+import std::math
+import std::io
+import std::stack
+
+// Function definitions with different keywords
+def public_func (I64 I64 -> I64) {
+    +
+}
+
+defp private_func (String ->) {
+    println
+}
+
+defx external_func (F64 -> F64)
+
+// Generic types in function signatures
+def generic_func (a b -> a b) {
+    swap
+}
+
+// Function without body (external)
+defx another_external (Boolean -> Boolean)
+
+// Complex type signatures
+def complex_func (U8 U16 U32 -> I64 String Boolean) {
+    drop drop drop
+    42 "hello" true
+}
+
+// Main function with comprehensive examples
+def main {
+    // Typed number literals - all integer types
+    42u8 println
+    1000u16 println
+    100000u32 println
+    9999999999u64 println
+    123456789012345678901234567890u128 println
+
+    -10i8 println
+    -1000i16 println
+    -100000i32 println
+    -9999999999i64 println
+    -123456789012345678901234567890i128 println
+
+    // Float literals
+    3.14f64 println
+    -2.5f64 println
+    1.0e10f64 println
+
+    // Boolean literals
+    true println
+    false println
+
+    // String literals with escapes
+    "Hello World!" println
+    "String with \"quotes\" and \n newlines" println
+    "Unicode: \u0048\u0065\u006C\u006C\u006F" println
+    "" println
+
+    // Stack operations
+    1 2 3 dup println      // dup
+    drop drop              // drop
+
+    4 5 dup2 println println println println  // dup2
+    drop2                  // drop2
+
+    6 7 8 swap println     // swap
+    drop drop
+
+    9 10 11 rot println    // rot
+    drop drop
+
+    12 touch println       // touch
+    drop
+
+    // Mathematical operations
+    10 5 + println         // addition
+    10 5 - println         // subtraction
+    10 5 * println         // multiplication
+    10 5 / println         // division
+    10 3 % println         // modulus
+
+    // Comparison operations
+    10 5 > if { "10 > 5" println }
+    10 15 < if { "10 < 15" println }
+    5 5 = if { "5 = 5" println }
+    5 10 != if { "5 != 10" println }
+
+    // Boolean operations
+    true false && if { "Should not print" } else { "Correct: true && false = false" println }
+
+    // Control flow
+    true if {
+        "This should print" println
+    } else {
+        "This should not print" println
+    }
+
+    false if {
+        "This should not print" println
+    } else {
+        "This should print" println
+    }
+
+    // Single if without else
+    true if {
+        "Single if statement" println
+    }
+
+    // Nested blocks
+    {
+        "Inside block" println
+        {
+            "Nested block" println
+        }
+    }
+
+    // Function calls
+    10 20 public_func println
+    "Testing private function" private_func
+
+    // Complex expressions
+    1 2 + 3 4 + * println  // (1+2) * (3+4) = 21
+
+    // Factorial example
+    5 factorial println
+}
+
+// Recursive function with control flow
+def factorial (I64 -> I64) {
+    dup 1 <= if {
+        drop 1
+    } else {
+        dup 1 - factorial *
+    }
+}
+
+// Function with multiple overloads (same name, different signatures)
+def test_overload (I64 -> I64) {
+    dup
+}
+
+def test_overload (String -> String) {
+    dup
+}
+
+// Function demonstrating all comparison operators
+def test_comparisons (I64 I64 ->) {
+    dup2 > if { "First > Second" println } else { drop }
+    dup2 < if { "First < Second" println } else { drop }
+    dup2 = if { "First = Second" println } else { drop }
+    dup2 != if { "First != Second" println } else { drop }
+    drop2
+}
+
+/* Multi-line comment
+   Testing block comments
+   with various characters: !@#$%^&*()_+-={}[]|\:";'<>?,./ */
+
+// Edge cases and complex scenarios
+def edge_cases {
+    // Empty string
+    "" println
+
+    // Zero values
+    0 println
+    0u8 println
+    0i64 println
+    0.0f64 println
+
+    // Boolean operations
+    true true && println
+    false false && println
+
+    // Nested function calls
+    1 2 + 3 4 + public_func println
+
+    // Complex stack manipulation
+    1 2 3 4 5 rot rot swap dup2 println println println println println
+    drop2
+}
