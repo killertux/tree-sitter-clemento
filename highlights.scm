@@ -1,82 +1,109 @@
-; Keywords
-"def" @keyword.function
-"defp" @keyword.function
-"defx" @keyword.function
+; ClementoLang syntax highlighting.
+; tree-sitter highlight resolves the FIRST matching pattern, so the most
+; specific rules come first and the catch-alls come last.
+
+; ------------------------------------------------------------------ keywords
+[
+  "def"
+  "defp"
+  "defx"
+  "type"
+] @keyword.function
+
 "import" @keyword.import
+"match" @keyword.conditional
+"as" @keyword.operator
 
-; Import statements
-(import_statement
-  "import" @keyword.import
-  (import_path) @module)
+; ------------------------------------------------------------------- imports
+(import_statement path: (scoped_identifier) @module)
+(import_statement path: (identifier) @module)
+((import_item (identifier) @constructor)
+ (#match? @constructor "^[A-Z]"))
+(import_item (identifier) @function)
 
-(import_path
-  "::" @punctuation.delimiter)
+; ----------------------------------------------------------- type definitions
+(type_definition name: (type_identifier) @type)
+(type_parameters (identifier) @type.parameter)
+(variant name: (type_identifier) @constructor)
+(field name: (identifier) @property)
 
-; Keywords
-(if_keyword) @keyword.conditional
-(else_keyword) @keyword.conditional
+; ------------------------------------------------------- types in signatures
+; Built-in scalar/collection types.
+((type_reference (identifier) @type.builtin)
+ (#match? @type.builtin "^(I8|I16|I32|I64|I128|U8|U16|U32|U64|U128|F64|Char|String|CStr|Boolean)$"))
 
-; Function definitions
-(function_definition
-  name: (identifier) @function)
+; Lowercase type atoms are generic parameters; uppercase are concrete types.
+((type_reference (identifier) @type.parameter)
+ (#match? @type.parameter "^[a-z]"))
+((type_reference (identifier) @type)
+ (#match? @type "^[A-Z]"))
+(type_reference (type_identifier) @type)
+(type_reference (scoped_identifier) @type)
 
-; Function signatures
-(function_signature
-  "(" @punctuation.bracket
-  "->" @operator
-  ")" @punctuation.bracket)
+; ------------------------------------------------------- function definitions
+((function_definition name: (identifier) @function.special)
+ (#eq? @function.special "main"))
+(function_definition name: (identifier) @function)
+(function_definition name: (operator) @function)
 
-; Types
-(type (identifier) @type)
-(generic_type) @type.parameter
+; ------------------------------------------------------------------- patterns
+(constructor_pattern name: (identifier) @constructor)
+(constructor_pattern name: (scoped_identifier) @constructor)
+(field_binding name: (identifier) @variable.parameter)
+(field_binding alias: (identifier) @variable.parameter)
+(wildcard_pattern "*" @character.special)
+(rest_pattern) @operator
+; A bare lowercase pattern binds a value; uppercase is a nullary constructor.
+((match_arm pattern: (identifier) @constructor)
+ (#match? @constructor "^[A-Z]"))
+((list_pattern (identifier) @constructor)
+ (#match? @constructor "^[A-Z]"))
 
-; Built-in types
-((identifier) @type.builtin
- (#match? @type.builtin "^(U8|U16|U32|U64|U128|I8|I16|I32|I64|I128|F64|Boolean|String)$"))
+; ----------------------------------------------------- function values (`\`)
+(function_reference "\\" @operator)
+(function_reference (identifier) @function)
+(function_reference (scoped_identifier) @function)
+(function_reference (operator) @function)
+(quotation "\\" @operator)
 
-; Operators
+; ------------------------------------------------------ words in expressions
+; Stack-shuffling builtins.
+((identifier) @function.builtin
+ (#match? @function.builtin "^(dup|dup2|swap|drop|drop2|rot|touch|apply)$"))
+
+; Qualified calls: `boolean::True` is a constructor, `char::print` a function.
+((scoped_identifier) @constructor
+ (#match? @constructor "::[A-Z][A-Za-z0-9_]*$"))
+(scoped_identifier) @function
+
+; Bare uppercase words are constructors (`True`, `Ok`, `List`, `Empty`, ...).
+((identifier) @constructor
+ (#match? @constructor "^[A-Z]"))
+
+; ----------------------------------------------------------------- operators
 (operator) @operator
+"->" @operator
 
-; Boolean literals
-(boolean_literal) @constant.builtin.boolean
-
-; Number literals
-(number_literal) @number
-(typed_number_literal) @number
-
-; String literals
-(string_literal) @string
+; ------------------------------------------------------------------ literals
+(number) @number
+(char) @constant.character
+(string) @string
 (string_content) @string
 (escape_sequence) @string.escape
-
-; Comments
 (comment) @comment
 
-; Punctuation
-"{" @punctuation.bracket
-"}" @punctuation.bracket
-"(" @punctuation.bracket
-")" @punctuation.bracket
+; --------------------------------------------------------------- punctuation
+[
+  "("
+  ")"
+  "{"
+  "}"
+  "["
+  "]"
+  "<"
+  ">"
+] @punctuation.bracket
 
-; Stack manipulation functions
-((identifier) @function.builtin
- (#match? @function.builtin "^(dup|dup2|swap|drop|drop2|rot|touch)$"))
-
-; IO functions
-((identifier) @function.builtin
- (#match? @function.builtin "^(print|println|dbg)$"))
-
-; Math functions
-((identifier) @function.builtin
- (#match? @function.builtin "^(abs)$"))
-
-; Comparison operators as functions
-((identifier) @operator
- (#match? @operator "^(&&)$"))
-
-; Main function
-((identifier) @function.special
- (#eq? @function.special "main"))
-
-; Identifiers (variables and function calls)
+; --------------------------------------------------------------- catch-all
+; Any remaining bare word is a function call or a bound variable.
 (identifier) @variable

@@ -1,0 +1,38 @@
+================================================================================
+Import plain and selective
+================================================================================
+
+import std::list
+import std::io(println eprintln)
+import error(Error)
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (import_statement
+    path: (scoped_identifier))
+  (import_statement
+    path: (scoped_identifier)
+    (import_selection
+      (import_item
+        (identifier))
+      (import_item
+        (identifier))))
+  (import_statement
+    path: (identifier)
+    (import_selection
+      (import_item
+        (identifier)))))
+
+================================================================================
+Wildcard import
+================================================================================
+
+import std::std::*
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (import_statement
+    path: (scoped_identifier)))
+
