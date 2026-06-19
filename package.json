@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-clemento",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Clemento grammar for tree-sitter",
   "main": "bindings/node",
   "keywords": [
@@ -8,17 +8,17 @@
     "incremental",
     "clemento"
   ],
-  "author": "Your Name",
+  "author": "Bruno Clemente <bruno.canguru@hotmail.com>",
   "license": "MIT",
   "dependencies": {
     "node-addon-api": "^7.0.0",
     "node-gyp-build": "^4.6.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.20.8"
+    "tree-sitter-cli": "^0.24.4"
   },
   "peerDependencies": {
-    "tree-sitter": "^0.20.0"
+    "tree-sitter": "^0.21.0"
   },
   "peerDependenciesMeta": {
     "tree-sitter": {
@@ -28,7 +28,7 @@
   "scripts": {
     "install": "node-gyp-build",
     "prebuildify": "prebuildify --napi --strip",
-    "build": "tree-sitter build-wasm",
+    "build": "tree-sitter build --wasm",
     "test": "tree-sitter test"
   },
   "files": [
@@ -38,14 +38,5 @@
     "bindings/**",
     "queries/**",
     "src/**"
-  ],
-  "tree-sitter": [
-    {
-      "scope": "source.clemento",
-      "file-types": [
-        "clem",
-        "clemento"
-      ]
-    }
   ]
 }

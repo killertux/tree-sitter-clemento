@@ -1,0 +1,46 @@
+// A small ClementoLang sample exercising the constructs the grammar covers:
+// imports, type declarations, signatures, generics, first-class functions,
+// `match` with constructor / list / string patterns, and FFI declarations.
+
+import std::list
+import std::io(println eprintln)
+import std::stack(swap drop)
+import std::boolean(Boolean True False)
+
+type Option<a> {
+    None
+    Some(value a)
+}
+
+defx now (-> I64)
+
+def or_else (Option<a> a -> a) {
+    swap match {
+        Some(value) -> { swap drop }
+        None        -> { touch }
+    }
+}
+
+def map (Option<a> (a -> b) -> Option<b>) {
+    swap match {
+        Some(value) -> { value swap apply Some }
+        None        -> { drop None }
+    }
+}
+
+def classify (String -> String) {
+    match {
+        ""              -> "(empty)"
+        "quit"          -> "goodbye"
+        "say " ... rest -> rest
+        ['?' ... rest]  -> "a question"
+        [first ... tail] -> "unknown"
+    }
+}
+
+def main( -> I32) {
+    "hello" classify io::println
+    \{ 2i64 * } drop
+    "done" io::eprintln
+    0i32
+}

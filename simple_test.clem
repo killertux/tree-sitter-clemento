@@ -1,7 +1,0 @@
-def greet { println }
-def add { + }
-
-def main {
-    "Hello" greet
-    1 2 add
-}

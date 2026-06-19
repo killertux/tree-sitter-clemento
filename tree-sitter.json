@@ -1,0 +1,37 @@
+{
+  "grammars": [
+    {
+      "name": "clemento",
+      "camelcase": "Clemento",
+      "scope": "source.clemento",
+      "path": ".",
+      "file-types": [
+        "clem",
+        "clemento"
+      ],
+      "highlights": ["queries/highlights.scm"]
+    }
+  ],
+  "metadata": {
+    "version": "0.2.0",
+    "license": "MIT",
+    "description": "Clemento grammar for tree-sitter",
+    "authors": [
+      {
+        "name": "Bruno Clemente",
+        "email": "bruno.canguru@hotmail.com"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/killertux/tree-sitter-clemento"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true
+  }
+}
