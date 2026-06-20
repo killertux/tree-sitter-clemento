@@ -1,24 +1,22 @@
 ================================================================================
-External, public and nested definitions
+External, lazy function with nested def, and top-level code
 ================================================================================
 
 defx + (I64 I64 -> I64)
 
-def main( -> I32) {
-    0i32
-}
-
-def to_string (I64 -> String) {
-    defp go (String I64 -> String) {
+def to_string (I64 -> String) \{
+    defp go (String I64 -> String) \{
         dup
     }
     "" swap go
 }
 
+42i64 to_string println
+
 --------------------------------------------------------------------------------
 
 (source_file
-  (function_definition
+  (external_definition
     name: (operator)
     (function_signature
       (type_list
@@ -34,85 +32,62 @@ def to_string (I64 -> String) {
     (function_signature
       (type_list
         (type_reference
-          (identifier))))
-    (block
-      (number)))
-  (function_definition
-    name: (identifier)
-    (function_signature
-      (type_list
-        (type_reference
           (identifier)))
       (type_list
         (type_reference
           (identifier))))
-    (block
-      (function_definition
-        name: (identifier)
-        (function_signature
-          (type_list
-            (type_reference
-              (identifier))
-            (type_reference
-              (identifier)))
-          (type_list
-            (type_reference
+    body: (quotation
+      (block
+        (function_definition
+          name: (identifier)
+          (function_signature
+            (type_list
+              (type_reference
+                (identifier))
+              (type_reference
+                (identifier)))
+            (type_list
+              (type_reference
+                (identifier))))
+          body: (quotation
+            (block
               (identifier))))
-        (block
-          (identifier)))
-      (string)
-      (identifier)
-      (identifier))))
+        (string)
+        (identifier)
+        (identifier))))
+  (number)
+  (identifier)
+  (identifier))
 
 ================================================================================
-Operator and higher-order signatures
+Eager value def and lazy alias
 ================================================================================
 
-def && (Boolean Boolean -> Boolean) { touch }
-def map (Result<a b> (a -> c) -> Result<c b>) { swap }
+def pi 3.14
+def doubled (I64 -> I64) \{ 2i64 * }
+def twice \doubled
 
 --------------------------------------------------------------------------------
 
 (source_file
   (function_definition
-    name: (operator)
-    (function_signature
-      (type_list
-        (type_reference
-          (identifier))
-        (type_reference
-          (identifier)))
-      (type_list
-        (type_reference
-          (identifier))))
-    (block
-      (identifier)))
+    name: (identifier)
+    body: (number))
   (function_definition
     name: (identifier)
     (function_signature
       (type_list
         (type_reference
-          (identifier)
-          (type_arguments
-            (type_reference
-              (identifier))
-            (type_reference
-              (identifier))))
-        (function_type
-          (type_list
-            (type_reference
-              (identifier)))
-          (type_list
-            (type_reference
-              (identifier)))))
+          (identifier)))
       (type_list
         (type_reference
-          (identifier)
-          (type_arguments
-            (type_reference
-              (identifier))
-            (type_reference
-              (identifier))))))
-    (block
+          (identifier))))
+    body: (quotation
+      (block
+        (number)
+        (operator))))
+  (function_definition
+    name: (identifier)
+    body: (function_reference
       (identifier))))
 

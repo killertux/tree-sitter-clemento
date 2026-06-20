@@ -3,7 +3,7 @@ Line and block comments
 ================================================================================
 
 // a line comment
-def f {
+def f \{
     /* a block
        comment */
     dup // trailing
@@ -15,8 +15,9 @@ def f {
   (comment)
   (function_definition
     name: (identifier)
-    (block
-      (comment)
-      (identifier)
-      (comment))))
+    body: (quotation
+      (block
+        (comment)
+        (identifier)
+        (comment)))))
 

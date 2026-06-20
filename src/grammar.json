@@ -7,10 +7,10 @@
       "type": "REPEAT",
       "content": {
         "type": "SYMBOL",
-        "name": "_definition"
+        "name": "_item"
       }
     },
-    "_definition": {
+    "_item": {
       "type": "CHOICE",
       "members": [
         {
@@ -23,11 +23,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "function_definition"
+          "name": "external_definition"
         },
         {
           "type": "SYMBOL",
-          "name": "comment"
+          "name": "_term"
         }
       ]
     },
@@ -275,10 +275,6 @@
             {
               "type": "STRING",
               "value": "defp"
-            },
-            {
-              "type": "STRING",
-              "value": "defx"
             }
           ]
         },
@@ -312,16 +308,42 @@
           ]
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "block"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "FIELD",
+          "name": "body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_term"
+          }
+        }
+      ]
+    },
+    "external_definition": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "defx"
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "operator"
+              }
+            ]
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "function_signature"
         }
       ]
     },
@@ -492,7 +514,7 @@
           "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
-            "name": "_term"
+            "name": "_item"
           }
         },
         {
@@ -1290,11 +1312,7 @@
       "name": "comment"
     }
   ],
-  "conflicts": [
-    [
-      "function_definition"
-    ]
-  ],
+  "conflicts": [],
   "precedences": [],
   "externals": [],
   "inline": [],

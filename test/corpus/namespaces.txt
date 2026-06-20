@@ -1,0 +1,69 @@
+================================================================================
+Namespace with :: members
+================================================================================
+
+def math {
+    def double (I64 -> I64) \{ 2i64 * }
+    def geometry {
+        def perimeter (I64 -> I64) \{ math::double }
+    }
+    defp secret (I64 -> I64) \{ 999i64 + }
+}
+
+5i64 math::double drop
+5i64 math::geometry::perimeter drop
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (function_definition
+    name: (identifier)
+    body: (block
+      (function_definition
+        name: (identifier)
+        (function_signature
+          (type_list
+            (type_reference
+              (identifier)))
+          (type_list
+            (type_reference
+              (identifier))))
+        body: (quotation
+          (block
+            (number)
+            (operator))))
+      (function_definition
+        name: (identifier)
+        body: (block
+          (function_definition
+            name: (identifier)
+            (function_signature
+              (type_list
+                (type_reference
+                  (identifier)))
+              (type_list
+                (type_reference
+                  (identifier))))
+            body: (quotation
+              (block
+                (scoped_identifier))))))
+      (function_definition
+        name: (identifier)
+        (function_signature
+          (type_list
+            (type_reference
+              (identifier)))
+          (type_list
+            (type_reference
+              (identifier))))
+        body: (quotation
+          (block
+            (number)
+            (operator))))))
+  (number)
+  (scoped_identifier)
+  (identifier)
+  (number)
+  (scoped_identifier)
+  (identifier))
+

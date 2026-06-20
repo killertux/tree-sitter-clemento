@@ -1,6 +1,6 @@
 // A small ClementoLang sample exercising the constructs the grammar covers:
-// imports, type declarations, signatures, generics, first-class functions,
-// `match` with constructor / list / string patterns, and FFI declarations.
+// imports, type declarations, generics, lazy functions (`\{ ... }`), eager value
+// bindings, `::`-navigable namespaces, `match` patterns, and FFI declarations.
 
 import std::list
 import std::io(println eprintln)
@@ -12,35 +12,41 @@ type Option<a> {
     Some(value a)
 }
 
-defx now (-> I64)
+defx now ( -> I64)
 
-def or_else (Option<a> a -> a) {
+// Lazy functions: referencing the name runs the body.
+def or_else (Option<a> a -> a) \{
     swap match {
         Some(value) -> { swap drop }
         None        -> { touch }
     }
 }
 
-def map (Option<a> (a -> b) -> Option<b>) {
+def map (Option<a> (a -> b) -> Option<b>) \{
     swap match {
         Some(value) -> { value swap apply Some }
         None        -> { drop None }
     }
 }
 
-def classify (String -> String) {
-    match {
-        ""              -> "(empty)"
-        "quit"          -> "goodbye"
-        "say " ... rest -> rest
-        ['?' ... rest]  -> "a question"
-        [first ... tail] -> "unknown"
+// An eager namespace def: its nested defs are members reached with `::`.
+def text {
+    def classify (String -> String) \{
+        match {
+            ""               -> "(empty)"
+            "quit"           -> "goodbye"
+            "say " ... rest  -> rest
+            ['?' ... rest]   -> "a question"
+            [first ... tail] -> "unknown"
+        }
     }
 }
 
-def main( -> I32) {
-    "hello" classify io::println
-    \{ 2i64 * } drop
-    "done" io::eprintln
-    0i32
-}
+// An eager value binding (a constant).
+def answer 42i64
+
+// No `main`: the file's top level is the program. A trailing I32 is the exit code.
+"hello" text::classify println
+\{ 2i64 * } drop
+"done" eprintln
+0i32
