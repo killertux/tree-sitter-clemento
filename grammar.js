@@ -12,6 +12,13 @@
  *   - `'x'` is a character literal; `"..."` a string; `\name` / `\{ ... }` a
  *     function value (reference / quotation); `->` separates a signature's or a
  *     match arm's two sides.
+ *   - A `def`/`defp` body is a single term: `\{ ... }` / `\name` for a *lazy
+ *     function* (referencing the name runs it), or any other term (`{ ... }`,
+ *     a literal, ...) for an *eager value binding* (the body runs once and its
+ *     result is captured). An eager `def` whose body is a block of nested defs
+ *     is a *namespace*, whose members are reached with `::`.
+ *   - There is no `main`: a file's top level is the program, so it may contain
+ *     executable terms alongside definitions, imports, and type declarations.
  */
 
 module.exports = grammar({
@@ -21,21 +28,18 @@ module.exports = grammar({
 
   word: ($) => $.identifier,
 
-  conflicts: ($) => [
-    // `def`/`defp` carry a body block while `defx` does not; with nested defs a
-    // trailing `{` is ambiguous until reduced. GLR explores both.
-    [$.function_definition],
-  ],
-
   rules: {
-    source_file: ($) => repeat($._definition),
+    // A file's top level is the program: definitions, imports, type decls, and
+    // executable terms, in any order. The same item set fills every block (so a
+    // namespace def's body, a function body, and a quotation are uniform).
+    source_file: ($) => repeat($._item),
 
-    _definition: ($) =>
+    _item: ($) =>
       choice(
         $.import_statement,
         $.type_definition,
-        $.function_definition,
-        $.comment,
+        $.external_definition,
+        $._term,
       ),
 
     // ---------------------------------------------------------------- imports
@@ -82,14 +86,23 @@ module.exports = grammar({
     field: ($) => seq(field("name", $.identifier), field("type", $._type)),
 
     // --------------------------------------------------- function definitions
-    // `def name (sig) { body }`  — `defp` (private/nested) and `defx` (external,
-    // no body) share the same shape. `defx` omits the body.
+    // `def name (sig)? body` / `defp ...` — the body is a single term: `\{ ... }`
+    // or `\name` for a lazy function, or any other term for an eager value
+    // binding (a block of nested defs makes it a namespace).
     function_definition: ($) =>
       seq(
-        choice("def", "defp", "defx"),
+        choice("def", "defp"),
         field("name", choice($.identifier, $.operator)),
         optional($.function_signature),
-        optional($.block),
+        field("body", $._term),
+      ),
+
+    // `defx name (sig)` — an external (FFI) declaration: a signature, no body.
+    external_definition: ($) =>
+      seq(
+        "defx",
+        field("name", choice($.identifier, $.operator)),
+        $.function_signature,
       ),
 
     function_signature: ($) =>
@@ -114,7 +127,9 @@ module.exports = grammar({
       seq("(", optional($.type_list), "->", optional($.type_list), ")"),
 
     // --------------------------------------------------------- bodies & terms
-    block: ($) => seq("{", repeat($._term), "}"),
+    // A block may hold the same items as the top level (so namespace bodies can
+    // declare nested defs/types/imports as well as run terms).
+    block: ($) => seq("{", repeat($._item), "}"),
 
     _term: ($) =>
       choice(

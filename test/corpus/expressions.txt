@@ -2,7 +2,7 @@
 Literals quotations references and lists
 ================================================================================
 
-def demo {
+def demo \{
     42 -17 3.14 0xFF 10u32 -1i8
     'a' '\n'
     "text"
@@ -16,24 +16,25 @@ def demo {
 (source_file
   (function_definition
     name: (identifier)
-    (block
-      (number)
-      (number)
-      (number)
-      (number)
-      (number)
-      (number)
-      (char)
-      (char)
-      (string
-        (string_content))
-      (function_reference
-        (identifier))
-      (quotation
-        (block
-          (identifier)
-          (identifier)))
-      (list
+    body: (quotation
+      (block
         (number)
-        (number)))))
+        (number)
+        (number)
+        (number)
+        (number)
+        (number)
+        (char)
+        (char)
+        (string
+          (string_content))
+        (function_reference
+          (identifier))
+        (quotation
+          (block
+            (identifier)
+            (identifier)))
+        (list
+          (number)
+          (number))))))
 

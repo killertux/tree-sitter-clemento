@@ -5,6 +5,10 @@
   name: (identifier) @name) @definition.function
 (function_definition
   name: (operator) @name) @definition.function
+(external_definition
+  name: (identifier) @name) @definition.function
+(external_definition
+  name: (operator) @name) @definition.function
 
 (type_definition
   name: (type_identifier) @name) @definition.type

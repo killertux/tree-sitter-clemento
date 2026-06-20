@@ -41,10 +41,10 @@
 (type_reference (scoped_identifier) @type)
 
 ; ------------------------------------------------------- function definitions
-((function_definition name: (identifier) @function.special)
- (#eq? @function.special "main"))
 (function_definition name: (identifier) @function)
 (function_definition name: (operator) @function)
+(external_definition name: (identifier) @function)
+(external_definition name: (operator) @function)
 
 ; ------------------------------------------------------------------- patterns
 (constructor_pattern name: (identifier) @constructor)

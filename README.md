@@ -11,7 +11,15 @@ the grammar models:
 
 - **Definitions:** `def` (public), `defp` (private/nested), `defx` (external /
   FFI, no body). Names may be words (`to_string`) or operator symbols (`+`,
-  `&&`, `%i8`).
+  `&&`, `%i8`). A `def`/`defp` body is a single term: `\{ ... }` / `\name` for a
+  **lazy function** (referencing the name runs it), or any other term for an
+  **eager value binding** (the body runs once and its result is captured).
+- **Namespaces & `::`:** an eager `def` whose body is a block of nested defs is a
+  namespace; its members are reached with `::` — `def std { def string { def
+  concat … } }` then `std::string::concat`.
+- **No `main`:** a file's top level *is* the program, so it may contain
+  executable terms alongside definitions, imports, and type declarations; a
+  trailing `I32` is the exit code.
 - **Type declarations:** `type Name { ... }` with sum-type variants, optional
   generics (`type Result<a b> { ... }`), and record-style fields
   (`List(next List<a> element a)`).
@@ -41,17 +49,16 @@ type Option<a> {
     Some(value a)
 }
 
-def map (Option<a> (a -> b) -> Option<b>) {
+def map (Option<a> (a -> b) -> Option<b>) \{
     swap match {
         Some(value) -> { value swap apply Some }
         None        -> { drop None }
     }
 }
 
-def main( -> I32) {
-    "hello" println
-    0i32
-}
+// top level is the program; the trailing I32 is the exit code
+"hello" println
+0i32
 ```
 
 See [`example.clem`](example.clem) for a longer sample.

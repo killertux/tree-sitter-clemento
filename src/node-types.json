@@ -16,6 +16,10 @@
           "named": true
         },
         {
+          "type": "external_definition",
+          "named": true
+        },
+        {
           "type": "function_definition",
           "named": true
         },
@@ -25,6 +29,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "import_statement",
           "named": true
         },
         {
@@ -53,6 +61,10 @@
         },
         {
           "type": "string",
+          "named": true
+        },
+        {
+          "type": "type_definition",
           "named": true
         }
       ]
@@ -83,6 +95,36 @@
       "types": [
         {
           "type": "field_binding",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "external_definition",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "operator",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "function_signature",
           "named": true
         }
       ]
@@ -148,6 +190,60 @@
     "type": "function_definition",
     "named": true,
     "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          },
+          {
+            "type": "char",
+            "named": true
+          },
+          {
+            "type": "function_definition",
+            "named": true
+          },
+          {
+            "type": "function_reference",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "list",
+            "named": true
+          },
+          {
+            "type": "match_expression",
+            "named": true
+          },
+          {
+            "type": "number",
+            "named": true
+          },
+          {
+            "type": "operator",
+            "named": true
+          },
+          {
+            "type": "quotation",
+            "named": true
+          },
+          {
+            "type": "scoped_identifier",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
@@ -164,13 +260,9 @@
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
-        {
-          "type": "block",
-          "named": true
-        },
         {
           "type": "function_signature",
           "named": true
@@ -541,7 +633,15 @@
       "required": false,
       "types": [
         {
-          "type": "comment",
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "char",
+          "named": true
+        },
+        {
+          "type": "external_definition",
           "named": true
         },
         {
@@ -549,7 +649,43 @@
           "named": true
         },
         {
+          "type": "function_reference",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "import_statement",
+          "named": true
+        },
+        {
+          "type": "list",
+          "named": true
+        },
+        {
+          "type": "match_expression",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "operator",
+          "named": true
+        },
+        {
+          "type": "quotation",
+          "named": true
+        },
+        {
+          "type": "scoped_identifier",
+          "named": true
+        },
+        {
+          "type": "string",
           "named": true
         },
         {
