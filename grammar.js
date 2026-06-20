@@ -19,6 +19,9 @@
  *     is a *namespace*, whose members are reached with `::`.
  *   - There is no `main`: a file's top level is the program, so it may contain
  *     executable terms alongside definitions, imports, and type declarations.
+ *   - Effects: `effect IO` declares a side effect; signatures annotate them on
+ *     the output side with a `!` sigil — `!IO` (named), `!a` (effect variable),
+ *     `!*` (the any-effects wildcard), e.g. `def println (String -> !IO)`.
  */
 
 module.exports = grammar({
@@ -38,6 +41,7 @@ module.exports = grammar({
       choice(
         $.import_statement,
         $.type_definition,
+        $.effect_definition,
         $.external_definition,
         $._term,
       ),
@@ -78,6 +82,11 @@ module.exports = grammar({
 
     type_parameters: ($) => seq("<", repeat1($.identifier), ">"),
 
+    // ----------------------------------------------------- effect definitions
+    // `effect IO` — declares a side effect. It has no value and never reaches
+    // codegen; it is referenced in signatures with a `!` sigil (see `effect`).
+    effect_definition: ($) => seq("effect", field("name", $.type_identifier)),
+
     variant: ($) =>
       seq(field("name", $.type_identifier), optional($.variant_fields)),
 
@@ -106,9 +115,26 @@ module.exports = grammar({
       ),
 
     function_signature: ($) =>
-      seq("(", optional($.type_list), "->", optional($.type_list), ")"),
+      seq("(", optional($.type_list), "->", optional($.output_list), ")"),
 
     type_list: ($) => repeat1($._type),
+
+    // The output side of a signature may carry effects (`!IO`, `!a`, `!*`)
+    // alongside the pushed types.
+    output_list: ($) => repeat1(choice($._type, $.effect)),
+
+    // `!IO` (named), `!std::io::IO` (qualified), `!a` (effect variable), `!*`
+    // (the any-effects wildcard). Effects appear only on a signature's output
+    // side, so the `!`-led token never collides with the `!=` operator (which
+    // only occurs in terms).
+    effect: ($) =>
+      seq(
+        "!",
+        field(
+          "name",
+          choice($.scoped_identifier, $.type_identifier, $.identifier, "*"),
+        ),
+      ),
 
     // ------------------------------------------------------------------ types
     _type: ($) => choice($.type_reference, $.function_type),
@@ -122,9 +148,10 @@ module.exports = grammar({
 
     type_arguments: ($) => seq("<", repeat1($._type), ">"),
 
-    // A first-class function type, e.g. `(a -> c)` or `((a -> I64) -> Map)`.
+    // A first-class function type, e.g. `(a -> c)`, `((a -> I64) -> Map)`, or an
+    // effectful `(a -> b !e)` parameter.
     function_type: ($) =>
-      seq("(", optional($.type_list), "->", optional($.type_list), ")"),
+      seq("(", optional($.type_list), "->", optional($.output_list), ")"),
 
     // --------------------------------------------------------- bodies & terms
     // A block may hold the same items as the top level (so namespace bodies can

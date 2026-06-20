@@ -14,6 +14,15 @@ type Option<a> {
 
 defx now ( -> I64)
 
+// An effect declaration. A function performing it annotates it with `!` on the
+// output side; `!a` is an effect variable and `!*` the any-effects wildcard.
+effect Clock
+
+defx ticks ( -> I64 !Clock)
+
+// Uses the `IO` effect declared in std::io, referenced via the import alias.
+def announce (String -> !io::IO) \{ println }
+
 // Lazy functions: referencing the name runs the body.
 def or_else (Option<a> a -> a) \{
     swap match {

@@ -25,7 +25,7 @@ def respond (String -> String) \{
       (type_list
         (type_reference
           (identifier)))
-      (type_list
+      (output_list
         (type_reference
           (identifier))))
     body: (quotation
@@ -77,4 +77,3 @@ def respond (String -> String) \{
             pattern: (wildcard_pattern)
             body: (string
               (string_content))))))))
-

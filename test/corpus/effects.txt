@@ -1,0 +1,45 @@
+================================================================================
+Effect declaration and effect-annotated signatures
+================================================================================
+
+effect IO
+
+def println (String -> !IO) \{ print }
+
+def run (String (String -> !e) -> !*) \{ apply }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (effect_definition
+    name: (type_identifier))
+  (function_definition
+    name: (identifier)
+    (function_signature
+      (type_list
+        (type_reference
+          (identifier)))
+      (output_list
+        (effect
+          name: (identifier))))
+    body: (quotation
+      (block
+        (identifier))))
+  (function_definition
+    name: (identifier)
+    (function_signature
+      (type_list
+        (type_reference
+          (identifier))
+        (function_type
+          (type_list
+            (type_reference
+              (identifier)))
+          (output_list
+            (effect
+              name: (identifier)))))
+      (output_list
+        (effect)))
+    body: (quotation
+      (block
+        (identifier)))))
