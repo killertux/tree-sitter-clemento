@@ -25,6 +25,10 @@ the grammar models:
   (`List(next List<a> element a)`).
 - **Type signatures:** `(Inputs -> Outputs)`, generics (`a`), generic
   application (`Result<a b>`), and first-class function types (`(a -> b)`).
+- **Effects:** `effect IO` declares a side effect; signatures annotate them on
+  the output side with a `!` sigil — `!IO` (named), `!std::io::IO` (qualified),
+  `!a` (an effect variable), and `!*` (the any-effects wildcard). For example
+  `def println (String -> !IO)`, or an effect-polymorphic `(a -> b !e)` param.
 - **First-class functions:** `\name` (reference) and `\{ ... }` (quotation),
   applied with `apply`.
 - **`match`:** matches the top of the stack. Patterns include constructors
@@ -56,8 +60,11 @@ def map (Option<a> (a -> b) -> Option<b>) \{
     }
 }
 
+// performs IO, so it declares the effect (the `IO` effect lives in `std::io`)
+def shout (String -> !io::IO) \{ println }
+
 // top level is the program; the trailing I32 is the exit code
-"hello" println
+"hello" shout
 0i32
 ```
 

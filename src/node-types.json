@@ -16,6 +16,10 @@
           "named": true
         },
         {
+          "type": "effect_definition",
+          "named": true
+        },
+        {
           "type": "external_definition",
           "named": true
         },
@@ -98,6 +102,50 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "effect",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "*",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "scoped_identifier",
+            "named": true
+          },
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "effect_definition",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -302,6 +350,10 @@
       "required": false,
       "types": [
         {
+          "type": "output_list",
+          "named": true
+        },
+        {
           "type": "type_list",
           "named": true
         }
@@ -316,6 +368,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "output_list",
+          "named": true
+        },
         {
           "type": "type_list",
           "named": true
@@ -609,6 +665,29 @@
     }
   },
   {
+    "type": "output_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "effect",
+          "named": true
+        },
+        {
+          "type": "function_type",
+          "named": true
+        },
+        {
+          "type": "type_reference",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "quotation",
     "named": true,
     "fields": {},
@@ -638,6 +717,10 @@
         },
         {
           "type": "char",
+          "named": true
+        },
+        {
+          "type": "effect_definition",
           "named": true
         },
         {
@@ -923,6 +1006,10 @@
     }
   },
   {
+    "type": "!",
+    "named": false
+  },
+  {
     "type": "\"",
     "named": false
   },
@@ -984,6 +1071,10 @@
   },
   {
     "type": "defx",
+    "named": false
+  },
+  {
+    "type": "effect",
     "named": false
   },
   {

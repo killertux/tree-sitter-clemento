@@ -24,7 +24,7 @@ def to_string (I64 -> String) \{
           (identifier))
         (type_reference
           (identifier)))
-      (type_list
+      (output_list
         (type_reference
           (identifier)))))
   (function_definition
@@ -33,7 +33,7 @@ def to_string (I64 -> String) \{
       (type_list
         (type_reference
           (identifier)))
-      (type_list
+      (output_list
         (type_reference
           (identifier))))
     body: (quotation
@@ -46,7 +46,7 @@ def to_string (I64 -> String) \{
                 (identifier))
               (type_reference
                 (identifier)))
-            (type_list
+            (output_list
               (type_reference
                 (identifier))))
           body: (quotation
@@ -79,7 +79,7 @@ def twice \doubled
       (type_list
         (type_reference
           (identifier)))
-      (type_list
+      (output_list
         (type_reference
           (identifier))))
     body: (quotation
@@ -90,4 +90,3 @@ def twice \doubled
     name: (identifier)
     body: (function_reference
       (identifier))))
-

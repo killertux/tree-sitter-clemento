@@ -25,7 +25,7 @@ def math {
           (type_list
             (type_reference
               (identifier)))
-          (type_list
+          (output_list
             (type_reference
               (identifier))))
         body: (quotation
@@ -41,7 +41,7 @@ def math {
               (type_list
                 (type_reference
                   (identifier)))
-              (type_list
+              (output_list
                 (type_reference
                   (identifier))))
             body: (quotation
@@ -53,7 +53,7 @@ def math {
           (type_list
             (type_reference
               (identifier)))
-          (type_list
+          (output_list
             (type_reference
               (identifier))))
         body: (quotation
@@ -66,4 +66,3 @@ def math {
   (number)
   (scoped_identifier)
   (identifier))
-

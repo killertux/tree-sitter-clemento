@@ -8,6 +8,7 @@
   "defp"
   "defx"
   "type"
+  "effect"
 ] @keyword.function
 
 "import" @keyword.import
@@ -26,6 +27,19 @@
 (type_parameters (identifier) @type.parameter)
 (variant name: (type_identifier) @constructor)
 (field name: (identifier) @property)
+
+; --------------------------------------------------------------------- effects
+; `effect IO` declaration, and `!IO` / `!a` / `!*` annotations in signatures.
+; An effect is treated like a type, so its name is highlighted as one.
+(effect_definition name: (type_identifier) @type)
+(effect "!" @operator)
+(effect "*" @character.special)
+(effect (type_identifier) @type)
+(effect (scoped_identifier) @type)
+((effect (identifier) @type.parameter)
+ (#match? @type.parameter "^[a-z]"))
+((effect (identifier) @type)
+ (#match? @type "^[A-Z]"))
 
 ; ------------------------------------------------------- types in signatures
 ; Built-in scalar/collection types.

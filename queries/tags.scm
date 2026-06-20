@@ -13,6 +13,9 @@
 (type_definition
   name: (type_identifier) @name) @definition.type
 
+(effect_definition
+  name: (type_identifier) @name) @definition.type
+
 ; References: qualified word calls (e.g. `io::println`). Bare words are skipped
 ; here because they are indistinguishable from pattern bindings without scope.
 (block
